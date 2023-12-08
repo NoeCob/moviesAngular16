@@ -1,0 +1,28 @@
+<body>
+    <div class="body container pattern-bg">
+        <div class="text-end">
+            <div class="btn-group" dropdown [insideClick]="true">
+                <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">Sort<span class="caret"></span>
+                </button>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                  <li *ngFor="let action of actions" role="menuitem"><a class="dropdown-item" href="{{getMovies(action)}}">{{action | titlecase}}</a></li>
+                </ul>
+              </div>
+        </div>
+        <br>
+        <div class="text-center" *ngIf="movies.length > 0">
+            <carousel [itemsPerSlide]="3" [singleSlideOffset]="true" [noWrap]="false" [interval]="0">
+                <slide class="position-relative" *ngFor="let movie of movies">
+                    <img class="poster" (click)="helpersService.details(movie.title)"
+                        [src]="helpersService.imagePath(movie.title, 'portrait')" alt="{{movie.title}}">
+                    <div *ngIf="watchListStatus(movie.title) === 'remove'"
+                        class="alert alert-success position-absolute top-50 start-50 translate-middle" role="alert">
+                        Watchlist
+                    </div>
+                    <button type="button" class="btn btn-primary position-absolute top-0 start-50 translate-middle-x"
+                        (click)="watchListStatus(movie.title, true)">{{watchListStatus(movie.title) | titlecase}}</button>
+                </slide>
+            </carousel>
+        </div>
+    </div>
+</body>
